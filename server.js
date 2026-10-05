@@ -1,35 +1,53 @@
-
-const express = require('express');
-const path = require('path');
-
-const app = express();
-
-app.use(express.json());
-app.use(express.static(__dirname));
-
-// Temporary list to store submissions
-const registrations = [];
-
-// API Route for Registration
 app.post('/api/register', (req, res) => {
-  registrations.push(req.body);
-  console.log("New Registration Received:", req.body);
-  
-  // Custom response message so your unchanged index.html displays cleanly
-  res.status(200).json({ message: "Done!" });
-});
+    const { fullName, regNo, email, dept, year, eventName } = req.body;
 
-// API Route to Get Registrations
-app.get('/api/registrations', (req, res) => {
-  res.json(registrations);
-});
+    if (!fullName || !regNo || !email || !dept || !year || !eventName) {
+        return res.status(400).json({
+            success: false,
+            message: 'All registration fields are required.'
+        });
+    }
 
-// Serve frontend page
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
+    const eventInfo = EVENT_DETAILS[eventName];
 
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    if (!eventInfo) {
+        return res.status(400).json({
+            success: false,
+            message: 'Selected event not found in database.'
+        });
+    }
+
+    const exists = registrations.some(
+        r => r.regNo.toLowerCase() === regNo.toLowerCase() &&
+             r.eventName === eventName
+    );
+
+    if (exists) {
+        return res.status(409).json({
+            success: false,
+            message: `Register number ${regNo} is already registered for ${eventName}.`
+        });
+    }
+
+    const record = {
+        id: registrations.length + 1,
+        fullName,
+        regNo,
+        email,
+        dept,
+        year,
+        eventName,
+        category: eventInfo.category,
+        venue: eventInfo.venue,
+        time: eventInfo.time,
+        registeredAt: new Date().toISOString()
+    };
+
+    registrations.push(record);
+
+    return res.status(201).json({
+        success: true,
+        message: 'Registration registered successfully!',
+        data: record
+    });
 });
