@@ -148,7 +148,8 @@ nav button.secondary {
     margin-bottom: 20px;
 }
 
-input, select {
+input,
+select {
     background: #0b071a;
     color: white;
     border: 1px solid #36206e;
@@ -206,10 +207,7 @@ input {
 
 .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: rgba(0, 0, 0, 0.85);
     display: flex;
     justify-content: center;
@@ -412,14 +410,20 @@ footer {
     </div>
 
     <div class="nav-buttons">
-        <button class="secondary" onclick="openRegistrationModal()">Register Now</button>
-        <button onclick="showPage('dashboard')">Organizer Dashboard</button>
+        <button class="secondary" onclick="openRegistrationModal()">
+            Register Now
+        </button>
+
+        <button onclick="showPage('dashboard')">
+            Organizer Dashboard
+        </button>
     </div>
 </nav>
 
 <section class="hero">
     <div class="container">
         <h1>IdeaFlow 2026</h1>
+
         <p>
             One smart platform for technical and non-technical events,
             registrations, schedules, venues, announcements and intelligent
@@ -429,6 +433,8 @@ footer {
 </section>
 
 <main class="container">
+
+<!-- ================= DASHBOARD ================= -->
 
 <section id="dashboard">
 
@@ -462,16 +468,18 @@ footer {
 
     <div class="tabs">
 
-        <button class="active"
-                onclick="filterEvents('all',this)">
+        <button
+            class="active"
+            onclick="filterEvents('all', this)"
+        >
             All Events
         </button>
 
-        <button onclick="filterEvents('Technical',this)">
+        <button onclick="filterEvents('Technical', this)">
             Technical
         </button>
 
-        <button onclick="filterEvents('Non-Technical',this)">
+        <button onclick="filterEvents('Non-Technical', this)">
             Non-Technical
         </button>
 
@@ -517,19 +525,27 @@ footer {
         <h2>Announcements</h2>
 
         <div class="alert good">
+
             <b>Registration Update:</b>
+
             <span id="announcement-count">4,650</span>
+
             participants have registered for IdeaFlow.
+
         </div>
 
         <div class="alert">
+
             <b>Crowd Alert:</b>
             Web Arena may reach high capacity at 12:00 PM.
+
         </div>
 
     </div>
 
 </section>
+
+<!-- ================= MY EVENTFLOW ================= -->
 
 <section id="myflow" class="hidden">
 
@@ -550,7 +566,10 @@ footer {
                     Participant: Not Registered
                 </h3>
 
-                <div class="timeline" id="user-timeline"></div>
+                <div
+                    class="timeline"
+                    id="user-timeline"
+                ></div>
 
             </div>
 
@@ -570,8 +589,8 @@ footer {
                 </div>
 
                 <p>
-                    Each registered event can generate a digital QR
-                    check-in pass.
+                    Each registered event can generate a digital
+                    QR check-in pass.
                 </p>
 
                 <button onclick="checkIn()">
@@ -593,6 +612,8 @@ footer {
 
 </section>
 
+<!-- ================= EVENT PULSE ================= -->
+
 <section id="pulse" class="hidden">
 
     <div class="panel">
@@ -600,8 +621,8 @@ footer {
         <h2>EventPulse</h2>
 
         <p class="muted">
-            EventPulse helps organizers identify possible crowd congestion
-            using registrations, venue capacity and event timing.
+            EventPulse helps organizers identify possible crowd
+            congestion using registrations, venue capacity and event timing.
         </p>
 
         <div class="flow" style="margin-top:20px;">
@@ -641,7 +662,7 @@ footer {
                 <p>3. Send announcement</p>
                 <p>4. Monitor QR check-ins</p>
 
-                <div class="alert good" style="margin-top:15px;">
+                <div class="alert good">
                     Overflow reduced: 130 to 0
                 </div>
 
@@ -661,6 +682,8 @@ footer {
 </section>
 
 </main>
+
+<!-- ================= REGISTRATION MODAL ================= -->
 
 <div id="registerModal" class="modal-overlay hidden">
 
@@ -703,7 +726,10 @@ footer {
 
         </div>
 
-        <form id="registrationForm" onsubmit="handleRegistration(event)">
+        <form
+            id="registrationForm"
+            onsubmit="handleRegistration(event)"
+        >
 
             <div class="form-grid">
 
@@ -779,3 +805,752 @@ footer {
                         <option value="ECE">
                             Electronics & Communication
                         </option>
+
+                        <option value="EEE">
+                            Electrical & Electronics
+                        </option>
+
+                        <option value="MECH">
+                            Mechanical Engineering
+                        </option>
+
+                        <option value="CIVIL">
+                            Civil Engineering
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="year">
+                        Year of Study
+                    </label>
+
+                    <select id="year" required>
+
+                        <option value="">
+                            Select Year
+                        </option>
+
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="eventSelect">
+                        Select Event
+                    </label>
+
+                    <select
+                        id="eventSelect"
+                        required
+                        onchange="updateModalDetails(this.value)"
+                    >
+
+                        <option value="">
+                            Choose an Event
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <button
+                type="submit"
+                class="btn-primary"
+            >
+                Complete Registration
+            </button>
+
+            <button
+                type="button"
+                class="btn-secondary"
+                onclick="closeRegistrationModal()"
+            >
+                Cancel
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<footer>
+    EventFlow 2026 - IdeaFlow<br>
+    Smart Symposium Coordination Platform
+</footer>
+
+<script>
+
+/* =========================================================
+   EVENTS DATA
+========================================================= */
+
+const events = [
+
+    ["Paper Presentation","Technical","9:00 AM","Seminar Hall A",180,
+    "1 - 3 Members per team",
+    "Submit slides 15 mins prior. Maximum 7 mins presentation + 3 mins Q&A."],
+
+    ["Code Sprint","Technical","10:30 AM","Lab 2",220,
+    "Individual Participation",
+    "Solve 5 algorithmic tasks within 60 minutes. Languages: C++, Java, Python."],
+
+    ["Tech Quiz","Technical","12:00 PM","Auditorium",400,
+    "2 Members per team",
+    "3 rounds: Prelims, Rapid Fire, and Visual round. No mobile usage allowed."],
+
+    ["Debugging Duel","Technical","2:00 PM","Lab 3",160,
+    "Individual / Pair",
+    "Find and fix bugs in complex code snippets. Fast submission wins."],
+
+    ["Robo Race","Technical","9:00 AM","Innovation Lab",250,
+    "Up to 4 Members",
+    "Bots must navigate custom tracks. External dimensions must not exceed 30x30 cm."],
+
+    ["UI/UX Challenge","Technical","10:30 AM","Design Studio",140,
+    "1 - 2 Members",
+    "Design a desktop/mobile prototype on Figma based on the given live prompt."],
+
+    ["AI Idea Pitch","Technical","12:00 PM","Seminar Hall B",190,
+    "1 - 3 Members",
+    "Pitch AI/ML solution to real-world problems. 5 mins pitch time."],
+
+    ["Circuit Clash","Technical","2:00 PM","Electronics Lab",130,
+    "2 Members per team",
+    "Design, breadboard, and test analog/digital circuits for required specifications."],
+
+    ["Web Arena","Technical","12:00 PM","Web Lab",350,
+    "1 - 2 Members",
+    "Build a responsive web application using standard frontend frameworks in 2 hours."],
+
+    ["Project Expo","Technical","2:00 PM","Main Block",500,
+    "Up to 4 Members",
+    "Demonstrate working hardware/software models to judges."],
+
+    ["Treasure Hunt","Non-Technical","2:00 PM","Open Ground",700,
+    "3 - 4 Members",
+    "Solve clues across campus grounds. First team to report back wins."],
+
+    ["Connection","Non-Technical","10:30 AM","Block B",220,
+    "2 Members per team",
+    "Identify hidden words/phrases from visual clues."],
+
+    ["Photography Contest","Non-Technical","12:00 PM","Media Room",120,
+    "Individual",
+    "Theme released on the spot. Raw & unedited photos must be submitted."],
+
+    ["Ad Zap","Non-Technical","2:00 PM","Seminar Hall C",200,
+    "3 - 5 Members",
+    "Create and perform a witty advertisement on a randomly assigned topic."],
+
+    ["Meme War","Non-Technical","10:30 AM","Block A",250,
+    "Individual",
+    "Create original tech/college life memes. Plagiarism results in disqualification."],
+
+    ["Best Manager","Non-Technical","9:00 AM","Conference Hall",160,
+    "Individual",
+    "Multi-round assessment including stress interview, crisis handling, and aptitude."],
+
+    ["Dumb Charades","Non-Technical","12:00 PM","Open Hall",300,
+    "3 Members per team",
+    "Standard silent charades rules. Strictly no lip-syncing or gestures allowed."],
+
+    ["Fun Quiz","Non-Technical","10:30 AM","Auditorium",400,
+    "2 Members per team",
+    "Pop culture, movies, music, and trivia quiz."],
+
+    ["Minute to Win It","Non-Technical","2:00 PM","Open Ground",500,
+    "Individual",
+    "Complete 60-second physical and skill-based quick challenges."]
+];
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+let currentFilter = "all";
+
+
+/* =========================================================
+   SAVED USER DATA
+========================================================= */
+
+let currentUser =
+    localStorage.getItem("eventflowUser") || null;
+
+let userRegisteredEvents =
+    JSON.parse(
+        localStorage.getItem("eventflowEvents") || "[]"
+    );
+
+
+/* =========================================================
+   POPULATE EVENT DROPDOWN
+========================================================= */
+
+function populateEventSelect() {
+
+    const select =
+        document.getElementById("eventSelect");
+
+    select.innerHTML =
+        '<option value="">Choose an Event</option>';
+
+    events.forEach(event => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = event[0];
+
+        option.textContent =
+            `${event[0]} (${event[1]} - ${event[2]})`;
+
+        select.appendChild(option);
+
+    });
+}
+
+
+/* =========================================================
+   EVENT DETAILS
+========================================================= */
+
+function updateModalDetails(eventName) {
+
+    const detailsBox =
+        document.getElementById("eventDetailsDisplay");
+
+    if (!eventName) {
+
+        detailsBox.classList.add("hidden");
+
+        return;
+    }
+
+    const ev =
+        events.find(e => e[0] === eventName);
+
+    if (ev) {
+
+        document.getElementById("detailTitle").textContent = ev[0];
+
+        document.getElementById("detailCategory").textContent = ev[1];
+
+        document.getElementById("detailTime").textContent = ev[2];
+
+        document.getElementById("detailVenue").textContent = ev[3];
+
+        document.getElementById("detailTeam").textContent = ev[5];
+
+        document.getElementById("detailRules").innerHTML =
+            "<strong>Rules:</strong> " + ev[6];
+
+        detailsBox.classList.remove("hidden");
+    }
+}
+
+
+/* =========================================================
+   DISPLAY EVENTS
+========================================================= */
+
+function displayEvents() {
+
+    const search =
+        document.getElementById("search").value.toLowerCase();
+
+    const time =
+        document.getElementById("timeFilter").value;
+
+    const container =
+        document.getElementById("events");
+
+    container.innerHTML = "";
+
+    events
+        .filter(event => {
+
+            const matchesType =
+                currentFilter === "all" ||
+                event[1] === currentFilter;
+
+            const matchesSearch =
+                event[0].toLowerCase().includes(search);
+
+            const matchesTime =
+                time === "all" ||
+                event[2] === time;
+
+            return (
+                matchesType &&
+                matchesSearch &&
+                matchesTime
+            );
+        })
+        .forEach(event => {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "card " +
+                (event[1] === "Technical"
+                    ? "tech"
+                    : "nontech");
+
+            card.innerHTML = `
+                <span class="tag">${event[1]}</span>
+
+                <h3>${event[0]}</h3>
+
+                <p>
+                    Time: ${event[2]}<br>
+                    Venue: ${event[3]}<br>
+                    Capacity: ${event[4]}
+                </p>
+
+                <button onclick="registerEvent('${event[0]}')">
+                    View Rules & Register
+                </button>
+            `;
+
+            container.appendChild(card);
+        });
+}
+
+
+/* =========================================================
+   FETCH STATS
+========================================================= */
+
+async function fetchStats() {
+
+    try {
+
+        const response =
+            await fetch("/api/stats");
+
+        const res =
+            await response.json();
+
+        if (res.success) {
+
+            document.getElementById("stat-total").innerText =
+                res.stats.total.toLocaleString();
+
+            document.getElementById("stat-tech").innerText =
+                res.stats.technical.toLocaleString();
+
+            document.getElementById("stat-nontech").innerText =
+                res.stats.nonTechnical.toLocaleString();
+
+            document.getElementById("announcement-count").innerText =
+                res.stats.total.toLocaleString();
+        }
+
+    } catch (err) {
+
+        console.log(
+            "Backend unavailable. Showing default statistics."
+        );
+    }
+}
+
+
+/* =========================================================
+   FILTER TABS
+========================================================= */
+
+function filterEvents(type, button) {
+
+    currentFilter = type;
+
+    document
+        .querySelectorAll(".tabs button")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+    button.classList.add("active");
+
+    displayEvents();
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openRegistrationModal() {
+
+    document
+        .getElementById("registerModal")
+        .classList.remove("hidden");
+}
+
+function closeRegistrationModal() {
+
+    document
+        .getElementById("registerModal")
+        .classList.add("hidden");
+
+    document
+        .getElementById("eventDetailsDisplay")
+        .classList.add("hidden");
+}
+
+function registerEvent(name) {
+
+    openRegistrationModal();
+
+    if (name) {
+
+        document.getElementById("eventSelect").value =
+            name;
+
+        updateModalDetails(name);
+    }
+}
+
+
+/* =========================================================
+   REGISTRATION
+========================================================= */
+
+async function handleRegistration(e) {
+
+    e.preventDefault();
+
+    const name =
+        document.getElementById("fullName").value.trim();
+
+    const regNo =
+        document.getElementById("regNo").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const dept =
+        document.getElementById("dept").value;
+
+    const year =
+        document.getElementById("year").value;
+
+    const selectedEventName =
+        document.getElementById("eventSelect").value;
+
+    const eventDetails =
+        events.find(
+            ev => ev[0] === selectedEventName
+        );
+
+    if (!eventDetails || !name) {
+
+        alert("Please complete all fields.");
+
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch("/api/register", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    fullName: name,
+                    regNo: regNo,
+                    email: email,
+                    dept: dept,
+                    year: year,
+                    eventName: selectedEventName
+
+                })
+            });
+
+        const result =
+            await response.json();
+
+        if (response.ok && result.success) {
+
+            /*
+             * Save participant
+             */
+
+            if (
+                !currentUser ||
+                currentUser !== name
+            ) {
+
+                currentUser = name;
+
+                userRegisteredEvents = [];
+            }
+
+            /*
+             * Add event
+             */
+
+            if (
+                !userRegisteredEvents.some(
+                    ev => ev[0] === eventDetails[0]
+                )
+            ) {
+
+                userRegisteredEvents.push(
+                    eventDetails
+                );
+            }
+
+            /*
+             * SAVE TO BROWSER
+             * This is what keeps My EventFlow
+             * after refreshing.
+             */
+
+            localStorage.setItem(
+                "eventflowUser",
+                currentUser
+            );
+
+            localStorage.setItem(
+                "eventflowEvents",
+                JSON.stringify(
+                    userRegisteredEvents
+                )
+            );
+
+            /*
+             * Update page
+             */
+
+            fetchStats();
+
+            renderUserTimeline();
+
+            alert(
+                "Registration Successful!\n\n" +
+
+                "Name: " + name + "\n" +
+
+                "Event: " +
+                eventDetails[0] + "\n" +
+
+                "Time: " +
+                eventDetails[2] + "\n" +
+
+                "Venue: " +
+                eventDetails[3]
+            );
+
+            document
+                .getElementById("registrationForm")
+                .reset();
+
+            closeRegistrationModal();
+
+            showPage("myflow");
+
+        } else {
+
+            alert(
+                "Registration Failed:\n" +
+                (result.message ||
+                    "Unknown server error")
+            );
+        }
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert(
+            "Server error. Please ensure the server is running."
+        );
+    }
+}
+
+
+/* =========================================================
+   MY EVENTFLOW
+========================================================= */
+
+function renderUserTimeline() {
+
+    document
+        .getElementById("participant-name-display")
+        .innerText =
+            "Participant: " +
+            (currentUser || "Not Registered");
+
+    const timeline =
+        document.getElementById("user-timeline");
+
+    timeline.innerHTML = "";
+
+    if (
+        !currentUser ||
+        userRegisteredEvents.length === 0
+    ) {
+
+        timeline.innerHTML = `
+            <p class="muted">
+                No events registered yet.
+                Click "Register Now" or select an event
+                from the dashboard.
+            </p>
+        `;
+
+        return;
+    }
+
+    userRegisteredEvents.forEach(ev => {
+
+        const newItem =
+            document.createElement("div");
+
+        newItem.className = "item";
+
+        newItem.innerHTML = `
+            <b>${ev[2]} - ${ev[0]}</b>
+            <br>
+            <span class="muted">${ev[3]}</span>
+        `;
+
+        timeline.appendChild(newItem);
+    });
+}
+
+
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+function showPage(page) {
+
+    document
+        .getElementById("dashboard")
+        .classList.add("hidden");
+
+    document
+        .getElementById("myflow")
+        .classList.add("hidden");
+
+    document
+        .getElementById("pulse")
+        .classList.add("hidden");
+
+    document
+        .getElementById(page)
+        .classList.remove("hidden");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* =========================================================
+   QR CHECK-IN
+========================================================= */
+
+function checkIn() {
+
+    if (
+        !currentUser ||
+        userRegisteredEvents.length === 0
+    ) {
+
+        alert(
+            "No registration found!\n\n" +
+            "Please register for an event first."
+        );
+
+        return;
+    }
+
+    const latestEvent =
+        userRegisteredEvents[
+            userRegisteredEvents.length - 1
+        ];
+
+    alert(
+        "CHECK-IN SUCCESSFUL!\n\n" +
+
+        "Participant: " +
+        currentUser + "\n" +
+
+        "Event: " +
+        latestEvent[0] + "\n" +
+
+        "Venue: " +
+        latestEvent[3]
+    );
+}
+
+
+/* =========================================================
+   SMART ACTION
+========================================================= */
+
+function smartAction() {
+
+    alert(
+        "EVENTPULSE RECOMMENDATION\n\n" +
+
+        "Web Arena is predicted to exceed capacity.\n\n" +
+
+        "Recommended Action:\n" +
+
+        "- Open Backup Lab B\n" +
+
+        "- Redirect 130 participants\n" +
+
+        "- Send announcement\n" +
+
+        "- Monitor QR check-ins"
+    );
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+populateEventSelect();
+
+displayEvents();
+
+renderUserTimeline();
+
+fetchStats();
+
+</script>
+
+</body>
+</html>
