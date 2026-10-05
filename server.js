@@ -3,23 +3,24 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 const app = express();
-app.use(express.json());
 
-// Serve static files (index.html, CSS, frontend JS)
+app.use(express.json());
 app.use(express.static(__dirname));
 
-// MongoDB Connection
 const mongoURI = "mongodb+srv://varshadhaneshkumar3_db_user:BTAckL1n7ehQZ9frY@cluster0.evt5mih.mongodb.net/?appName=Cluster0";
 
 mongoose.connect(mongoURI)
-  .then(() => console.log("✅ MongoDB Connected!"))
-  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
+  .then(() => console.log("✔ MongoDB Connected!"))
+  .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
-// Schema for Registration
+// Schema matching your complete form
 const registrationSchema = new mongoose.Schema({
   name: String,
+  regNo: String,
   email: String,
-  type: String
+  dept: String,
+  year: String,
+  event: String
 });
 
 const Registration = mongoose.model('Registration', registrationSchema);
@@ -27,8 +28,7 @@ const Registration = mongoose.model('Registration', registrationSchema);
 // API Route: Register User
 app.post('/api/register', async (req, res) => {
   try {
-    const { name, email, type } = req.body;
-    const newRegistration = new Registration({ name, email, type });
+    const newRegistration = new Registration(req.body);
     await newRegistration.save();
     res.status(201).json({ message: "Registration successful!" });
   } catch (error) {
@@ -46,13 +46,11 @@ app.get('/api/registrations', async (req, res) => {
   }
 });
 
-// Serve index.html as homepage
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Start Server
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
