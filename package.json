@@ -1,0 +1,12 @@
+{
+  "name": "eventflow",
+  "version": "1.0.0",
+  "description": "EventFlow Symposium Registration System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
