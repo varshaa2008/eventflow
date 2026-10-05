@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(express.static('.')); // Serves your static files (index.html)
 
 // MongoDB Connection
-const mongoURI = const mongoURI = "mongodb+srv://varshadhaneshkumar3_db_user:BTAckL1n7ehQZ9frY@cluster0.evt5mih.mongodb.net/?appName=Cluster0";
+const mongoURI = "mongodb+srv://varshadhaneshkumar3_db_user:BTAckL1n7ehQZ9frY@cluster0.evt5mih.mongodb.net/?appName=Cluster0";
 if (mongoURI) {
   mongoose.connect(mongoURI)
     .then(() => console.log("✅ MongoDB Connected!"))
