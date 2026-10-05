@@ -1,54 +1,80 @@
-// Function called when submitting the form
-async function registerUser(event) {
-  event.preventDefault();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventFlow Registration</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+    h1 { color: #333; text-align: center; }
+    form { display: flex; flex-direction: column; gap: 15px; background: #f9f9f9; padding: 20px; border-radius: 8px; }
+    input, select, button { padding: 10px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; }
+    button { background: #007bff; color: white; border: none; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #007bff; color: white; }
+  </style>
+</head>
+<body>
 
-  const name = document.getElementById('nameInput').value;
-  const email = document.getElementById('emailInput').value;
-  const type = document.getElementById('typeSelect').value; // Technical or Non-Technical
+  <h1>EventFlow Registration</h1>
 
-  // Send data to the backend API
-  const response = await fetch('/api/register', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, email, type })
-  });
+  <form id="regForm" onsubmit="registerUser(event)">
+    <input type="text" id="nameInput" placeholder="Enter Full Name" required>
+    <input type="email" id="emailInput" placeholder="Enter Email Address" required>
+    <select id="typeSelect">
+      <option value="Technical">Technical</option>
+      <option value="Non-Technical">Non-Technical</option>
+    </select>
+    <button type="submit">Register Now</button>
+  </form>
 
-  if (response.ok) {
-    alert('Successfully Registered!');
-    loadRegistrations(); // Refresh table and counters automatically
-  }
-}
-
-// Function called when page loads to fetch data from MongoDB
-async function loadRegistrations() {
-  const response = await fetch('/api/registrations');
-  const data = await response.json();
-
-  const tableBody = document.getElementById('tableBody');
-  tableBody.innerHTML = ''; // Clear previous table content
-
-  let techCount = 0;
-  let nonTechCount = 0;
-
-  data.forEach(user => {
-    // Increment counters based on type
-    if (user.type === 'Technical') techCount++;
-    else if (user.type === 'Non-Technical') nonTechCount++;
-
-    // Add row to table
-    tableBody.innerHTML += `
+  <h2>Registered Participants</h2>
+  <table>
+    <thead>
       <tr>
-        <td>${user.name}</td>
-        <td>${user.email}</td>
-        <td>${user.type}</td>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Type</th>
       </tr>
-    `;
-  });
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
 
-  // Update Technical and Non-Technical display count
-  document.getElementById('techCount').innerText = techCount;
-  document.getElementById('nonTechCount').innerText = nonTechCount;
-}
+  <script>
+    async function registerUser(event) {
+      event.preventDefault();
+      const name = document.getElementById('nameInput').value;
+      const email = document.getElementById('emailInput').value;
+      const type = document.getElementById('typeSelect').value;
 
-// Automatically load database entries when opening or refreshing the page
-window.onload = loadRegistrations;
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, type })
+      });
+
+      if (res.ok) {
+        alert('Registered successfully!');
+        document.getElementById('regForm').reset();
+        loadRegistrations();
+      } else {
+        alert('Registration failed!');
+      }
+    }
+
+    async function loadRegistrations() {
+      const res = await fetch('/api/registrations');
+      const data = await res.json();
+      const tableBody = document.getElementById('tableBody');
+      tableBody.innerHTML = '';
+      data.forEach(user => {
+        tableBody.innerHTML += `<tr><td>${user.name}</td><td>${user.email}</td><td>${user.type}</td></tr>`;
+      });
+    }
+
+    loadRegistrations();
+  </script>
+</body>
+</html>
