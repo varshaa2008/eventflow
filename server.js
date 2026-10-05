@@ -1,53 +1,65 @@
-app.post('/api/register', (req, res) => {
-    const { fullName, regNo, email, dept, year, eventName } = req.body;
+const express = require('express');
+const path = require('path');
 
-    if (!fullName || !regNo || !email || !dept || !year || !eventName) {
-        return res.status(400).json({
-            success: false,
-            message: 'All registration fields are required.'
-        });
-    }
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-    const eventInfo = EVENT_DETAILS[eventName];
+app.use(express.json());
+app.use(express.static(path.join(__dirname)));
 
-    if (!eventInfo) {
-        return res.status(400).json({
-            success: false,
-            message: 'Selected event not found in database.'
-        });
-    }
+/* ================= EVENT DETAILS ================= */
 
-    const exists = registrations.some(
-        r => r.regNo.toLowerCase() === regNo.toLowerCase() &&
-             r.eventName === eventName
-    );
+const EVENT_DETAILS = {
+    "Paper Presentation": {
+        venue: "Seminar Hall A",
+        time: "9:00 AM",
+        category: "Technical"
+    },
+    "Code Sprint": {
+        venue: "Lab 2",
+        time: "10:30 AM",
+        category: "Technical"
+    },
+    "Tech Quiz": {
+        venue: "Auditorium",
+        time: "12:00 PM",
+        category: "Technical"
+    },
+    "Debugging Duel": {
+        venue: "Lab 3",
+        time: "2:00 PM",
+        category: "Technical"
+    },
+    "Robo Race": {
+        venue: "Innovation Lab",
+        time: "9:00 AM",
+        category: "Technical"
+    },
+    "UI/UX Challenge": {
+        venue: "Design Studio",
+        time: "10:30 AM",
+        category: "Technical"
+    },
+    "AI Idea Pitch": {
+        venue: "Seminar Hall B",
+        time: "12:00 PM",
+        category: "Technical"
+    },
+    "Circuit Clash": {
+        venue: "Electronics Lab",
+        time: "2:00 PM",
+        category: "Technical"
+    },
+    "Web Arena": {
+        venue: "Web Lab",
+        time: "12:00 PM",
+        category: "Technical"
+    },
+    "Project Expo": {
+        venue: "Main Block",
+        time: "2:00 PM",
+        category: "Technical"
+    },
 
-    if (exists) {
-        return res.status(409).json({
-            success: false,
-            message: `Register number ${regNo} is already registered for ${eventName}.`
-        });
-    }
-
-    const record = {
-        id: registrations.length + 1,
-        fullName,
-        regNo,
-        email,
-        dept,
-        year,
-        eventName,
-        category: eventInfo.category,
-        venue: eventInfo.venue,
-        time: eventInfo.time,
-        registeredAt: new Date().toISOString()
-    };
-
-    registrations.push(record);
-
-    return res.status(201).json({
-        success: true,
-        message: 'Registration registered successfully!',
-        data: record
-    });
-});
+    "Treasure Hunt": {
+   
