@@ -7,14 +7,16 @@ const app = express();
 app.use(express.json());
 app.use(express.static(__dirname));
 
-// Temporary in-memory list (No MongoDB / Database needed!)
+// Temporary list to store submissions
 const registrations = [];
 
 // API Route for Registration
 app.post('/api/register', (req, res) => {
   registrations.push(req.body);
   console.log("New Registration Received:", req.body);
-  res.status(201).json({ message: "Registration successful!" });
+  
+  // Custom response message so your unchanged index.html displays cleanly
+  res.status(200).json({ message: "Done!" });
 });
 
 // API Route to Get Registrations
